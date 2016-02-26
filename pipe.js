@@ -36,8 +36,8 @@ if ("user" in user && "pass" in user) {
 run_on_server_id = ["151513166323515392"];
 // run_on_server_id = ["81384788765712384"];
 users_cache = {};
-chan_record = ds.record.getRecord('discord/channels/');
-cache_record = ds.record.getRecord('discord/cache/');
+chan_record = ds.record.getRecord('cfensi/channels/');
+cache_record = ds.record.getRecord('cfensi/cache/');
 
 function convert_message(message) {
     return {
@@ -161,7 +161,7 @@ mybot.on("message", function(message) {
             console.log(message.channel.id, cache_record.get(message.channel.id).length);
             cache_record.set(message.channel.id, {"past": cache['channel_messages'][message.channel.id.toString()], "id": message.channel.id});
         }
-        ds.event.emit('discord/channel/messages', out);
+        ds.event.emit('cfensi/channel/messages', out);
         console.log("message {0}: {1} - {2} ({3})".format(message.timestamp, out["user"], out["channel"], cache['channel_messages'][message.channel.id].length));
     }
 });

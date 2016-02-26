@@ -29,8 +29,8 @@ window.onload=function(){
     converter.setOption('omitExtraWLInCodeBlocks', true);
     converter.setOption('simplifiedAutoLink', true);
     ds = deepstream('https://cfensi.discord.rambint.com:6020').login();
-    chan_record = ds.record.getRecord('discord/channels/');
-    cache_record = ds.record.getRecord('discord/cache/');
+    chan_record = ds.record.getRecord('cfensi/channels/');
+    cache_record = ds.record.getRecord('cfensi/cache/');
     channels_past_loaded = [];
 
     channel_scroll_bar = new IScroll($('#channels-holder')[0], {
@@ -155,5 +155,5 @@ window.onload=function(){
         user_scroll_bar.refresh();
     });
 
-    ds.event.subscribe('discord/channel/messages', add);
+    ds.event.subscribe('cfensi/channel/messages', add);
 }
