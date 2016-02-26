@@ -71,6 +71,7 @@ window.onload=function(){
     cache_record.whenReady(function() {
         past_msgs = cache_record.get();
         for (c_id in past_msgs) {
+            console.log(c_id, channels_past_loaded);
             past_msgs[c_id].past.forEach(add_no_check);
             if (channels_past_loaded.indexOf(past_msgs[c_id].id) < 0) {
                 channels_past_loaded.push(past_msgs[c_id].id); 

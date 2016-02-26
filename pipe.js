@@ -77,10 +77,12 @@ function update_channels(cb) {
 
 function users_update_users(old, update) {
     console.log("Updated members due to presence");
-    s_id = users_cache[update.id].server;
-    if (run_on_server_id.indexOf(s_id) >= 0) {
-        users_cache[update.id] = {"id": update.id, "name": update.name, "game": update.game, "status": update.status, "server": s_id};;
-        send_update_users();
+    if (update.id in users_cache) {
+        s_id = users_cache[update.id].server;
+        if (run_on_server_id.indexOf(s_id) >= 0) {
+            users_cache[update.id] = {"id": update.id, "name": update.name, "game": update.game, "status": update.status, "server": s_id};;
+            send_update_users();
+        }
     }
 }
 
@@ -125,7 +127,7 @@ function get_channel_logs(channels) {
                 });
                 formated_data.reverse();
                 cache['channel_messages'][c.id] = formated_data;
-                console.log(c.name + ": " + cache['channel_messages'][c.id].length + " - " + Object.keys(cache['channel_messages']).length);
+                console.log(c.id, c.name + ": " + cache['channel_messages'][c.id].length + " - " + Object.keys(cache['channel_messages']).length);
                 cache_record.set(c.id, {"past": cache['channel_messages'][c.id.toString()], "id": c.id});
             });
         }
