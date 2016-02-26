@@ -126,7 +126,7 @@ function get_channel_logs(channels) {
                     return convert_message(msg);
                 });
                 formated_data.reverse();
-                cache['channel_messages'][c.id] = formated_data;
+                cache['channel_messages'][c.id.toString()] = formated_data;
                 console.log(c.id, c.name + ": " + cache['channel_messages'][c.id].length + " - " + Object.keys(cache['channel_messages']).length);
                 cache_record.set(c.id, {"past": cache['channel_messages'][c.id.toString()], "id": c.id});
             });
@@ -148,22 +148,23 @@ mybot.on("ready", function() {
 
 mybot.on("message", function(message) {
     if (run_on_server_id.indexOf(message.channel.server.id) >= 0) {
-        if (!(message.channel.id in cache["channel_messages"])) {
-            cache["channel_messages"][message.channel.id] = []
+        m_id = message.channel.id.toString();
+        if (!(m_id in cache["channel_messages"])) {
+            cache["channel_messages"][m_id] = []
         }
 
         out = convert_message(message);
 
-        if (cache["channel_messages"][message.channel.id].indexOf(out) < 0) {
-            cache["channel_messages"][message.channel.id].push(out);
-            if (cache["channel_messages"][message.channel.id].length > 500) {
-                cache["channel_messages"][message.channel.id].shift();
+        if (cache["channel_messages"][m_id].indexOf(out) < 0) {
+            cache["channel_messages"][m_id].push(out);
+            if (cache["channel_messages"][m_id].length > 500) {
+                cache["channel_messages"][m_id].shift();
             }
 
-            console.log(message.channel.id, cache_record.get(message.channel.id).length);
-            cache_record.set(message.channel.id, {"past": cache['channel_messages'][message.channel.id.toString()], "id": message.channel.id});
+            console.log(m_id, cache_record.get(m_id).length);
+            cache_record.set(m_id, {"past": cache['channel_messages'][m_id.toString()], "id": m_id});
         }
         ds.event.emit('cfensi/channel/messages', out);
-        console.log("message {0}: {1} - {2} ({3})".format(message.timestamp, out["user"], out["channel"], cache['channel_messages'][message.channel.id].length));
+        console.log("message {0}: {1} - {2} ({3})".format(message.timestamp, out["user"], out["channel"], cache['channel_messages'][m_id].length));
     }
 });
